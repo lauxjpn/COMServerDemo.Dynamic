@@ -1,8 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
 
     <!-- The application manifest is only needed for RegFree COM scenarios -->
     <ApplicationManifest Condition="'$(RegFree)' == 'True'">COMClient.manifest</ApplicationManifest>

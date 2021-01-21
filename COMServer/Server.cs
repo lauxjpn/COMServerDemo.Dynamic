@@ -1,13 +1,14 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace COMServer
 {
     [ComVisible(true)]
     [Guid(ContractGuids.ServerClass)]
+    [ProgId("ComServerVbs.ServerVbs")]
+    [ComDefaultInterface(typeof(IServer))]
     public class Server : IServer
     {
-        double IServer.ComputePi()
+        public double ComputePi()
         {
             double sum = 0.0;
             int sign = 1;
@@ -18,6 +19,11 @@ namespace COMServer
             }
 
             return 4.0 * sum;
+        }
+
+        double IServer.ComputePi()
+        {
+            return ComputePi();
         }
     }
 }

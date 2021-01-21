@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <!--
@@ -15,7 +15,8 @@
         In a RegFree COM scenario, the following file must also be deployed:
             COMServer.X.manifest
     -->
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
 
     <!-- Indicate the assembly is providing a COM server -->
     <EnableComHosting>True</EnableComHosting>
@@ -29,9 +30,7 @@
     <Compile Include="../COMContract/*.cs" />
   </ItemGroup>
 
-  <Target Name="ServerUsage"
-          Condition="'$(RegFree)' != 'True'"
-          AfterTargets="Build">
+  <Target Name="ServerUsage" Condition="'$(RegFree)' != 'True'" AfterTargets="Build">
     <Message Importance="High" Text="%0a************************************%0a*** $(MSBuildProjectName) usage instructions ***%0a************************************" />
     <Message Importance="High" Text="The server must be COM registered in order to activate.%0aThe following commands must be executed from an elevated command prompt." />
     <Message Importance="High" Text="Register:%0a    regsvr32.exe &quot;$(ProjectDir)$(OutputPath)$(ComHostFileName)&quot;" />

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 [ComVisible(true)]
 [Guid(ContractGuids.ServerInterface)]
-[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+[InterfaceType(ComInterfaceType.InterfaceIsDual)]
 public interface IServer
 {
     /// <summary>
