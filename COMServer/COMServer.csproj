@@ -30,6 +30,12 @@
     <Compile Include="../COMContract/*.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="..\COMContract\Contract.idl">
+      <Link>Contract.idl</Link>
+    </Content>
+  </ItemGroup>
+
   <Target Name="ServerUsage" Condition="'$(RegFree)' != 'True'" AfterTargets="Build">
     <Message Importance="High" Text="%0a************************************%0a*** $(MSBuildProjectName) usage instructions ***%0a************************************" />
     <Message Importance="High" Text="The server must be COM registered in order to activate.%0aThe following commands must be executed from an elevated command prompt." />
@@ -37,9 +43,7 @@
     <Message Importance="High" Text="Unregister:%0a    regsvr32.exe /u &quot;$(ProjectDir)$(OutputPath)$(ComHostFileName)&quot;" />
   </Target>
 
-  <Target Name="ServerUsage_RegFree"
-          Condition="'$(RegFree)' == 'True'"
-          AfterTargets="Build">
+  <Target Name="ServerUsage_RegFree" Condition="'$(RegFree)' == 'True'" AfterTargets="Build">
     <Message Importance="High" Text="%0a************************************%0a*** $(MSBuildProjectName) usage instructions ***%0a************************************" />
     <Message Importance="High" Text="A RegFree COM manifest has been created for the server.%0aThe manifest '@(RegFreeComManifest->'%(Filename)%(Extension)')' must be included during server deployment.%0aThe COMServer project will copy all required outputs to the COMClient output directory." />
 
@@ -51,12 +55,10 @@
     </ItemGroup>
 
     <!-- Deploy all required server outputs -->
-    <Copy SourceFiles="@(ServerOutput)"
-          DestinationFolder="../COMClient/$(OutputPath)" />
+    <Copy SourceFiles="@(ServerOutput)" DestinationFolder="../COMClient/$(OutputPath)" />
   </Target>
 
-  <Target Name="Clean_RegFree"
-          AfterTargets="Clean">
+  <Target Name="Clean_RegFree" AfterTargets="Clean">
     <ItemGroup>
       <ServerOutputToDelete Include="../COMClient/$(OutputPath)COMServer.*" />
     </ItemGroup>
@@ -65,4 +67,28 @@
     <Delete Files="@(ServerOutputToDelete)" />
   </Target>
 
+  <UsingTask
+    TaskName="SetEnvironmentVariable"
+    TaskFactory="CodeTaskFactory"
+    AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <Name ParameterType="System.String" Required="true" />
+      <Value ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+            Environment.SetEnvironmentVariable(Name, Value);
+        ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+  
+  <Target Name="Midl" BeforeTargets="Build">
+    <Message Text="TheDir: $(DevEnvDir)" Importance="high" />
+    <SetEnvironmentVariable Name="VSBaseDir" Value="$(DevEnvDir)..\.." />
+    <Exec Command="CreateTypeLib.bat" />
+  </Target>
+  
 </Project>

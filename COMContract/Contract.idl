@@ -1,0 +1,28 @@
+[
+    uuid(B2EE0DB3-972B-4AE3-95DD-9DB2AD5B6CDB),
+    version(1.0)
+]
+library COMServer
+{
+    importlib("stdole2.tlb");
+
+    [
+        object,
+        oleautomation,
+        dual,
+        uuid(402FB956-E484-4C25-8A89-8E26C5B588CA),
+        version(1.0)
+    ]
+    interface IServer : IDispatch {
+        [id(1)]
+        HRESULT ComputePi([out, retval] double* pRetVal);
+    };
+
+    [
+        uuid(65012759-8F78-40EC-8BB7-48741B178251),
+        version(1.0)
+    ]
+    coclass Server {
+        [default] interface IServer;
+    };
+};

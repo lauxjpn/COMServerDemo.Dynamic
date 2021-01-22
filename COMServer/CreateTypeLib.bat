@@ -1,0 +1,2 @@
+call "%VSBaseDir%\VC\Auxiliary\Build\vcvars64.bat"
+midl.exe /W1 /nologo /char signed /env amd64 /out"%~dp0\bin\Debug\net5.0-windows" /h "Contract_h.h" /tlb "%~dp0\bin\Debug\net5.0-windows\COMServer.tlb" /target "NT62" ..\COMContract\Contract.idl
