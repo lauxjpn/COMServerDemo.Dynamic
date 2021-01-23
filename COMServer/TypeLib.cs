@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using ComTypes = System.Runtime.InteropServices.ComTypes;
 
 [assembly: Guid(ContractGuids.TypeLibrary)]
+[assembly: ImportedFromTypeLib("COMServer.tlb")]
 
 namespace COMServer
 {
